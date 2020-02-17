@@ -75,17 +75,22 @@ const updateBook = baseUrl + '&op=update';
 const deleteBook = baseUrl + '&op=delete';
 
 console.log(insertBook);
-console.log(getBooks); 
+console.log(getBooks);
+console.log(updateBook);
+console.log(deleteBook); 
+
 
 
 //https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
 
 const mytitle = "another title";
 const myauthor = "another author";
-//var id = "84003"; 
+var id = "84003"; 
 
-function AddBook() {
-    fetch(insertBook + '&title=' + mytitle + '&author=' + myauthor)
+
+
+function AddBook(title, author) {
+    fetch(insertBook + '&title=' + title + '&author=' + author)
         .then((response) => {
             return response.json();
         })
@@ -93,6 +98,9 @@ function AddBook() {
             console.log(myJson);
         });
 }
+AddBook(); 
+
+
 
 
 function GetBooks() {
@@ -101,9 +109,13 @@ function GetBooks() {
             return response.json();
         })
         .then((myJson) => {
-            console.log(myJson);
+            console.log(myJson['data']);    
+
+
         });
 }
+
+//GetBooks(); 
 
 function UpdateBook() {
     fetch(updateBook + id)

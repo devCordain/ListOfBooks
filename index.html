@@ -10,9 +10,29 @@
 </head>
 <body>
 
-    <button type="button" onclick="myFunction()">Set background color</button>
-    <div id="users"></div>
-    <div id="test"></div>
+    <div id="AddBook">
+        <h2>Add Book</h2>
+        <form id="Form_addBook">
+            <label>Title</label>
+            <br />
+            <input type="text" id="title_input" />
+            <br />
+            <label>Author</label>
+            <br />
+            <input type="text" id="author_input" />
+            <br />
+            <input 
+                   type="button" 
+                   form="Form_addBook" 
+                   id="Add_Book_Button"
+                   value="submit"
+                   onclick="AddBook(document.getElementById('#title_input'), document.getElementById('#author_input'))">
+            />
+        </form>
+    </div>
+
+
+
 
 </body>
 </html>
