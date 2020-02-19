@@ -22,19 +22,17 @@ const mytitle = "another title";
 const myauthor = "another author";
 var id = "84003"; 
 
-function AddBook(title, author) {
-    fetch(insertBook + '&title=' + title + '&author=' + author)
+ function AddBook(title, author) {
+     fetch(insertBook + '&title=' + title + '&author=' + author)
         .then((response) => {
             return response.json();
         })
-        .then((myJson) => {
-            console.log(myJson);
-            if (myJson.status != "success") {
-                setTimeout(AddBook(title, author), 2000);
-            }
-        });
+         .then((myJson) => {
+             if (myJson.status != "success") {
+                 setTimeout(AddBook(title, author), 2000); // try again in 2000 milliseconds
+             }
+         });
 }
-
 
 function GetBooks() {
     fetch(getBooks)
