@@ -3,19 +3,11 @@
 var xhReq = new XMLHttpRequest();
 
 var key = localStorage.getItem('apiAccessKey');
-alert(key);
 if (key == null) {
-    xhReq.open("GET", 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey', false);
-    xhReq.send(null);
-    var jsonObject = JSON.parse(xhReq.responseText);
-    key = jsonObject.key.toString();  
-    localStorage.setItem('apiAccessKey', key);
+    GetNewAccessKey();
 }
 
-
-
 const baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
-
 const insertBook = baseUrl + '&op=insert';
 const getBooks = baseUrl + '&op=select';
 const updateBook = baseUrl + '&op=update';
@@ -30,8 +22,6 @@ const mytitle = "another title";
 const myauthor = "another author";
 var id = "84003"; 
 
-
-
 function AddBook(title, author) {
     fetch(insertBook + '&title=' + title + '&author=' + author)
         .then((response) => {
@@ -39,12 +29,11 @@ function AddBook(title, author) {
         })
         .then((myJson) => {
             console.log(myJson);
+            if (myJson.status != "success") {
+                setTimeout(AddBook(title, author), 2000);
+            }
         });
-    //alert(title);
 }
-//AddBook(); 
-
-
 
 
 function GetBooks() {
@@ -53,13 +42,12 @@ function GetBooks() {
             return response.json();
         })
         .then((myJson) => {
+            if (myJson['data'] == undefined) {
+                setTimeout(GetBooks(), 2000);
+            }
             console.log(myJson['data']);    
-
-
         });
 }
-
-//GetBooks(); 
 
 function UpdateBook() {
     fetch(updateBook + id)
@@ -81,4 +69,11 @@ function DeleteBook() {
         });
 }
 
+function GetNewAccessKey() {
+    xhReq.open("GET", 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey', false);
+    xhReq.send(null);
+    var jsonObject = JSON.parse(xhReq.responseText);
+    key = jsonObject.key.toString();
+    localStorage.setItem('apiAccessKey', key);
+}
 
