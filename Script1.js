@@ -88,30 +88,39 @@ const myauthor = "another author";
 var id = "84003"; 
 
 
-
-function AddBook(title, author) {
-    fetch(insertBook + '&title=' + title + '&author=' + author)
+ function AddBook(title, author) {
+     fetch(insertBook + '&title=' + title + '&author=' + author)
         .then((response) => {
             return response.json();
         })
-        .then((myJson) => {
-            console.log(myJson);
-        });
-    //alert(title);
+         .then((myJson) => {
+             if (myJson.status != "success") {
+                 setTimeout(AddBook(title, author), 2000); // try again in 2000 milliseconds
+             }
+         });
+     GetBooks(); 
 }
 //AddBook(); 
 
 
 
 
-function GetBooks() {
+function GetBooks(tries) {
     fetch(getBooks)
         .then((response) => {
             return response.json();
         })
         .then((myJson) => {
-            console.log(myJson['data']);    
+            console.log( myJson['data']);
 
+            if (myJson['data'] == undefined) {
+                setTimeout(GetBooks(), 2000); // try again in 2000 milliseconds
+            }
+            //const html = myJson['data'].map(book => {
+            //    return `<p>Name: ${book.author}</p>`
+            //}).join('');
+            //document.querySelector('#allBooks')
+            //    .insertAdjacentHTML('afterbegin', html);
 
         });
 }
