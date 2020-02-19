@@ -36,34 +36,47 @@ var id = "84003";
         })
          .then((myJson) => {
              if (myJson.status != "success") {
-                 setTimeout(AddBook(title, author), 2000); // try again in 2000 milliseconds
+                 AddBook(title, author);
+             } else {
+                 document.getElementById('title_input').value = "";
+                 document.getElementById('author_input').value = "";
+                 GetBooks();
              }
          });
-}
+ }
 
 function GetBooks() {
+    var elements = document.getElementsByClassName("bookListItem");
+    while (elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+
     fetch(getBooks)
         .then((response) => {
             return response.json();
         })
         .then((myJson) => {
             if (myJson['data'] == undefined) {
-                setTimeout(GetBooks(), 2000);
+                GetBooks();
             } else {
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Name: ${book.author} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, document.getElementById('title_input').value, document.getElementById('author_input').value)">UpdateBook</button></p></div>` }).join('');
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, document.getElementById('title_input').value, document.getElementById('author_input').value)">UpdateBook</button></p></div>` }).join('');
                 document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
             }
             console.log(myJson['data']);    
         });
 }
 
-function UpdateBook(bookId, titel, author) {
-    fetch(updateBook + "&id=" + bookId + "&title=" + titel + "&author=" + author)
+function UpdateBook(bookId, title, author) {
+    fetch(updateBook + "&id=" + bookId + "&title=" + title + "&author=" + author)
         .then((response) => {
             return response.json();
         })
         .then((myJson) => {
-            console.log(myJson);
+            if (myJson.status != "success") {
+                UpdateBook(bookId, title, author);
+            } else {
+                GetBooks(); 
+            }
         });
 }
 
@@ -74,7 +87,11 @@ function DeleteBook(bookId) {
             return response.json();
         })
         .then((myJson) => {
-            console.log(myJson);
+            if (myJson.status != "success") {
+                DeleteBook(bookId); // try again in 2000 milliseconds
+            } else {
+                GetBooks();
+            }
         });
 }
 
@@ -83,11 +100,15 @@ function GetNewAccessKey() {
     xhReq.send(null);
     var jsonObject = JSON.parse(xhReq.responseText);
     key = jsonObject.key.toString();
-    localStorage.setItem('apiAccessKey', key);
-    baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
-    insertBook = baseUrl + '&op=insert';
-    getBooks = baseUrl + '&op=select';
-    updateBook = baseUrl + '&op=update';
-    deleteBook = baseUrl + '&op=delete';
+    if (key == null) {
+        GetNewAccessKey();
+    } else {
+        localStorage.setItem('apiAccessKey', key);
+        baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
+        insertBook = baseUrl + '&op=insert';
+        getBooks = baseUrl + '&op=select';
+        updateBook = baseUrl + '&op=update';
+        deleteBook = baseUrl + '&op=delete';
+    }
 }
 
