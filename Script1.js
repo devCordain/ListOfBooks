@@ -97,8 +97,9 @@ function AddBook(title, author) {
         .then((myJson) => {
             console.log(myJson);
         });
+    //alert(title);
 }
-AddBook(); 
+//AddBook(); 
 
 
 
