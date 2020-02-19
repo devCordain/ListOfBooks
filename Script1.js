@@ -12,8 +12,6 @@ if (key == null) {
     localStorage.setItem('apiAccessKey', key);
 }
 
-console.log(jsonObject.key);
-
 
 
 const baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
