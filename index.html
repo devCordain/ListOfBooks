@@ -21,9 +21,8 @@
             <br />
             <input type="text" id="author_input" />
             <br />
-            <input 
-                   type="button" 
-                   form="Form_addBook" 
+            <input type="button"
+                   form="Form_addBook"
                    id="Add_Book_Button"
                    value="submit"
                    onclick="AddBook(document.getElementById('title_input').value, document.getElementById('author_input').value)">
@@ -31,7 +30,9 @@
 
     </div>
 
-    <button onclick="GetBooks(0)">get book</button>
+    <button onclick="GetBooks()">get book</button>
+
+    <button onclick="GetNewAccessKey()">New User</button>
     <div id="allBooks"></div>
 
 
