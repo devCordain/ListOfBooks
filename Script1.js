@@ -47,8 +47,8 @@ function GetBooks() {
         });
 }
 
-function UpdateBook() {
-    fetch(updateBook + id)
+function UpdateBook(updateid) {
+    fetch(updateBook + "&id" + id)
         .then((response) => {
             return response.json();
         })
