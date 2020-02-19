@@ -1,74 +1,13 @@
-// JavaScript source code
-
-//Test function
-//function myFunction() {
-//    document.body.style.backgroundColor = "red";
-//}
-
-
-////https://www.youtube.com/watch?time_continue=85&v=FN_ffvw_ksE&feature=emb_logo
-
-////get data 
-//function FetchData() {
-//    fetch("https:/reqres.in/api/users")
-//        .then(Response => {
-//            return Response.json();
-//        }).then(data => {
-//            //console.log(data.data);
-//            const html = data.data.map(user => {
-//                return `<p>Name: ${user.first_name}</p>`
-//            }).join('');
-//            document.querySelector('#users')
-//                .insertAdjacentHTML('afterbegin', html);
-//        }).catch(error => {
-//            console.log(error);
-//        })
-//}
-
-////Post Data
-//function PostData() {
-//    fetch("https:/reqres.in/api/users", {
-//        method: 'POST',
-//        headers: {
-//            "Content-Type": "application/json"
-//        },
-//        body: JSON.stringify({
-//            name: 'Petter',
-//            job: 'Developer'
-//        })
-//    })
-//        .then(Response => {
-//            return Response.json();
-//        }).then(data => {
-//            console.log(data);
-//        }).catch(error => {
-//            console.log(error);
-//        })
-//}
-
-
-//const Http = new XMLHttpRequest();
-//const url = 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey';
-//Http.open("GET", url);
-//Http.send();
-
-
-//Http.onreadystatechange = (e) => {
-//    var response = JSON.parse(Http.responseText);
-//    alert(response.key);
-//}                       
 
 
 var xhReq = new XMLHttpRequest();
-xhReq.open("GET", 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey', false);
-xhReq.send(null);
-var jsonObject = JSON.parse(xhReq.responseText);
 
-console.log(jsonObject.key);
+var key = localStorage.getItem('apiAccessKey');
+if (key == null) {
+    GetNewAccessKey();
+}
 
-let key = jsonObject.key.toString();  
 const baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
-
 const insertBook = baseUrl + '&op=insert';
 const getBooks = baseUrl + '&op=select';
 const updateBook = baseUrl + '&op=update';
@@ -79,14 +18,9 @@ console.log(getBooks);
 console.log(updateBook);
 console.log(deleteBook); 
 
-
-
-//https://www.google.com/maps/embed/v1/MODE?key=YOUR_API_KEY&parameters
-
 const mytitle = "another title";
 const myauthor = "another author";
 var id = "84003"; 
-
 
  function AddBook(title, author) {
      fetch(insertBook + '&title=' + title + '&author=' + author)
@@ -98,34 +32,20 @@ var id = "84003";
                  setTimeout(AddBook(title, author), 2000); // try again in 2000 milliseconds
              }
          });
-     GetBooks(); 
 }
-//AddBook(); 
 
-
-
-
-function GetBooks(tries) {
+function GetBooks() {
     fetch(getBooks)
         .then((response) => {
             return response.json();
         })
         .then((myJson) => {
-            console.log( myJson['data']);
-
             if (myJson['data'] == undefined) {
-                setTimeout(GetBooks(), 2000); // try again in 2000 milliseconds
+                setTimeout(GetBooks(), 2000);
             }
-            //const html = myJson['data'].map(book => {
-            //    return `<p>Name: ${book.author}</p>`
-            //}).join('');
-            //document.querySelector('#allBooks')
-            //    .insertAdjacentHTML('afterbegin', html);
-
+            console.log(myJson['data']);    
         });
 }
-
-//GetBooks(); 
 
 function UpdateBook() {
     fetch(updateBook + id)
@@ -147,4 +67,11 @@ function DeleteBook() {
         });
 }
 
+function GetNewAccessKey() {
+    xhReq.open("GET", 'https://www.forverkliga.se/JavaScript/api/crud.php?requestKey', false);
+    xhReq.send(null);
+    var jsonObject = JSON.parse(xhReq.responseText);
+    key = jsonObject.key.toString();
+    localStorage.setItem('apiAccessKey', key);
+}
 
