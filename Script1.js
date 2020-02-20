@@ -59,7 +59,7 @@ function GetBooks() {
             if (myJson['data'] == undefined) {
                 GetBooks();
             } else {
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, document.getElementById('title_input').value, document.getElementById('author_input').value)">UpdateBook</button></p></div>` }).join('');
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author}</p> <p> Title: ${book.title}</p> <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, document.getElementById('title_input').value, document.getElementById('author_input').value)">UpdateBook</button></div>` }).join('');
                 document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
             }
             console.log(myJson['data']);    
@@ -78,6 +78,12 @@ function UpdateBook(bookId, title, author) {
                 GetBooks(); 
             }
         });
+}
+
+function GenerateFormUpdateBook() {
+
+
+
 }
 
 function DeleteBook(bookId) {
@@ -110,5 +116,6 @@ function GetNewAccessKey() {
         updateBook = baseUrl + '&op=update';
         deleteBook = baseUrl + '&op=delete';
     }
+
 }
 
