@@ -25,9 +25,7 @@ button, #Add_Book_Button {
     margin-top: 1%;
 }
 
-.bookListItem p, button {
-    display: block;
-}
+
 
 .bookListItem button {
     margin-top: 1%;
@@ -68,9 +66,7 @@ h2 {
         #Add_Book_Button {
             margin-top: 1%;
         }
-        .bookListItem p, button{
-            display: block; 
-        }
+        
         .bookListItem button {
             margin-top: 1%; 
         }
