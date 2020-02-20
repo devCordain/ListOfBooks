@@ -78,6 +78,7 @@ function GetBooks() {
                 currentRequests++;
                 GetBooks();
             } else {
+
                 const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}')">UpdateBook</button></p></div>` }).join('');
                 document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
             }
@@ -90,6 +91,12 @@ function UpdateBook(bookId, title, author) {
     currentBookId = bookId;
     document.getElementById('title_input').value = title + "";
     document.getElementById('author_input').value = author + "";
+}
+
+function GenerateFormUpdateBook() {
+
+
+
 }
 
 function DeleteBook(bookId) {
@@ -119,6 +126,7 @@ function GetNewAccessKey() {
         UpdateUrl();
         GetBooks();
     }
+
 }
 function UpdateUrl() {
     localStorage.setItem('apiAccessKey', key);

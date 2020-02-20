@@ -3,37 +3,80 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
 
     <script src="Script1.js"></script>
 
     <title></title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+
 </head>
 <body>
+    <div class="flex-container">
+        <div id="AddBook">
 
-    <div id="AddBook">
-        <h2>Super duper book collection log</h2>
-        <form id="Form_addBook">
-            <label>Title</label>
-            <br />
-            <input type="text" id="title_input" />
-            <br />
-            <label>Author</label>
-            <br />
-            <input type="text" id="author_input" />
-            <br />
-            <input type="button"
-                   form="Form_addBook"
-                   id="Add_Book_Button"
-                   value="submit"
-                   onclick="AddBook(document.getElementById('title_input').value, document.getElementById('author_input').value)">
-        </form>
+            <h2>Super duper book collection log</h2>
+
+            <form id="Form_addBook">
+                <label>Title</label>
+                <br />
+                <input type="text" id="title_input" />
+                <br />
+                <label>Author</label>
+                <br />
+                <input type="text" id="author_input" />
+                <br />
+                <input type="button"
+                       form="Form_addBook"
+                       id="Add_Book_Button"
+                       value="submit"
+                       onclick="AddBook(document.getElementById('title_input').value, document.getElementById('author_input').value)">
+            </form>
+
+        </div>
+
+        <div>
+            <button id="newUser" onclick="GetNewAccessKey()">New User</button>
+        </div>  
+
+        <div>
+            <div id="allBooks"></div>
+        </div>
 
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    <button onclick="GetBooks()">get book</button>
+    
 
-    <button onclick="GetNewAccessKey()">New User</button>
-    <div id="allBooks"></div>
+    
+    
+    
+
+    
+    
+    
+
+    
+    
+    
 
 
 
