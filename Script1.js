@@ -1,49 +1,67 @@
-
-
 var xhReq = new XMLHttpRequest();
 var baseUrl;
 var insertBook;
 var getBooks; 
 var updateBook;
 var deleteBook;
-
-
+var currentBookId = -1;
+var maxRequests = 10;
+var currentRequests = 0;
 var key = localStorage.getItem('apiAccessKey');
+
 if (key == null) {
     GetNewAccessKey();
 } else {
-    baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
-    insertBook = baseUrl + '&op=insert';
-    getBooks = baseUrl + '&op=select';
-    updateBook = baseUrl + '&op=update';
-    deleteBook = baseUrl + '&op=delete';
+    UpdateUrl();
+    GetBooks();
 }
-
 
 console.log(insertBook);
 console.log(getBooks);
 console.log(updateBook);
 console.log(deleteBook); 
 
-const mytitle = "another title";
-const myauthor = "another author";
-var id = "84003"; 
-
  function AddBook(title, author) {
-     fetch(insertBook + '&title=' + title + '&author=' + author)
-        .then((response) => {
-            return response.json();
-        })
-         .then((myJson) => {
-             if (myJson.status != "success") {
-                 AddBook(title, author);
-             } else {
-                 document.getElementById('title_input').value = "";
-                 document.getElementById('author_input').value = "";
-                 GetBooks();
-             }
-         });
- }
+     if (currentBookId == -1) {
+         fetch(insertBook + '&title=' + title + '&author=' + author)
+             .then((response) => {
+                 return response.json();
+             })
+             .then((myJson) => {
+                 if (myJson.status != "success" && currentRequests < maxRequests) {
+                     currentRequests++;
+                     AddBook(title, author);
+                 } else {
+                     ResetForms();      
+                 }
+             });
+     } else {
+         fetch(updateBook + "&id=" + currentBookId + "&title=" + title + "&author=" + author)
+             .then((response) => {
+                 return response.json();
+             })
+             .then((myJson) => {
+                 if (myJson.status != "success" && currentRequests <= maxRequests) {
+                     currentRequests++;
+                     AddBook(title, author);
+                 } else {
+                     ResetForms();
+                 }
+             });
+     } 
+}
+
+function ResetForms() {
+    if (currentRequests >= maxRequests) {
+        alert("Hit max amount of errors from server, please try again)");
+    }
+
+    document.getElementById('title_input').value = "";
+    document.getElementById('author_input').value = "";
+    currentBookId = -1;
+    currentRequests = 0;
+    GetBooks();
+}
 
 function GetBooks() {
     var elements = document.getElementsByClassName("bookListItem");
@@ -56,28 +74,22 @@ function GetBooks() {
             return response.json();
         })
         .then((myJson) => {
-            if (myJson['data'] == undefined) {
+            if (myJson['data'] == undefined && currentRequests <= maxRequests) {
+                currentRequests++;
                 GetBooks();
             } else {
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, document.getElementById('title_input').value, document.getElementById('author_input').value)">UpdateBook</button></p></div>` }).join('');
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}')">UpdateBook</button></p></div>` }).join('');
                 document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
             }
             console.log(myJson['data']);    
         });
 }
 
+
 function UpdateBook(bookId, title, author) {
-    fetch(updateBook + "&id=" + bookId + "&title=" + title + "&author=" + author)
-        .then((response) => {
-            return response.json();
-        })
-        .then((myJson) => {
-            if (myJson.status != "success") {
-                UpdateBook(bookId, title, author);
-            } else {
-                GetBooks(); 
-            }
-        });
+    currentBookId = bookId;
+    document.getElementById('title_input').value = title + "";
+    document.getElementById('author_input').value = author + "";
 }
 
 function DeleteBook(bookId) {
@@ -87,10 +99,11 @@ function DeleteBook(bookId) {
             return response.json();
         })
         .then((myJson) => {
-            if (myJson.status != "success") {
-                DeleteBook(bookId); // try again in 2000 milliseconds
+            if (myJson.status != "success" && currentRequests <= maxRequests) {
+                currentRequests++;
+                DeleteBook(bookId);
             } else {
-                GetBooks();
+                ResetForms();
             }
         });
 }
@@ -103,12 +116,16 @@ function GetNewAccessKey() {
     if (key == null) {
         GetNewAccessKey();
     } else {
-        localStorage.setItem('apiAccessKey', key);
-        baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
-        insertBook = baseUrl + '&op=insert';
-        getBooks = baseUrl + '&op=select';
-        updateBook = baseUrl + '&op=update';
-        deleteBook = baseUrl + '&op=delete';
+        UpdateUrl();
+        GetBooks();
     }
+}
+function UpdateUrl() {
+    localStorage.setItem('apiAccessKey', key);
+    baseUrl = 'https://www.forverkliga.se/JavaScript/api/crud.php?key=' + key;
+    insertBook = baseUrl + '&op=insert';
+    getBooks = baseUrl + '&op=select';
+    updateBook = baseUrl + '&op=update';
+    deleteBook = baseUrl + '&op=delete';
 }
 
