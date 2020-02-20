@@ -52,7 +52,7 @@ console.log(deleteBook);
 }
 
 function ResetForms() {
-    if (currentRequests >= maxRequests) {
+    if (currentRequests > maxRequests) {
         alert("Hit max amount of errors from server, please try again)");
     }
 
@@ -79,7 +79,7 @@ function GetBooks() {
                 GetBooks();
             } else {
 
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} <button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}')">UpdateBook</button></p></div>` }).join('');
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem"><p>Author: ${book.author} , Title: ${book.title} </p><button onclick="DeleteBook(${book.id})">Delete</button><button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}')">UpdateBook</button></div>` }).join('');
                 document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
             }
             console.log(myJson['data']);    
@@ -93,11 +93,7 @@ function UpdateBook(bookId, title, author) {
     document.getElementById('author_input').value = author + "";
 }
 
-function GenerateFormUpdateBook() {
 
-
-
-}
 
 function DeleteBook(bookId) {
     console.log(deleteBook + "&id=" + bookId);
