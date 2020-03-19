@@ -59,7 +59,7 @@ function ResetForms() {
 }
 
 function GetBooks() {
-    var elements = document.getElementsByClassName("bookListItem");
+    var elements = document.getElementsByClassName("output-item");
     while (elements.length > 0) {
         elements[0].parentNode.removeChild(elements[0]);
     }
@@ -73,22 +73,17 @@ function GetBooks() {
                 currentRequests++;
                 GetBooks();
             } else {
-
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="bookListItem">Title: ${book.title} , Author: ${book.author} <button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}')">Update</button></div>` }).join('');
-                document.querySelector('#allBooks').insertAdjacentHTML('afterbegin', html);
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="output-item"><h2>${book.title}</h2><label>Author</label><br><p>${book.author}</p><button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}'); document.getElementById('Form_addBook').scrollIntoView();">Update</button></div>` }).join('');
+                document.querySelector('#output-Books').insertAdjacentHTML('afterbegin', html);
             }
-            console.log(myJson['data']);    
         });
 }
-
 
 function UpdateBook(bookId, title, author) {
     currentBookId = bookId;
     document.getElementById('title_input').value = title + "";
     document.getElementById('author_input').value = author + "";
 }
-
-
 
 function DeleteBook(bookId, title, author, firstCall) {
     if (firstCall){

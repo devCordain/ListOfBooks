@@ -14,71 +14,36 @@
 
 </head>
 <body>
-    <div class="flex-container">
-        <div id="AddBook">
-
-            <h2>Super duper book collection log</h2>
-
-            <form id="Form_addBook">
-                <label>Title</label>
-                <br />
-                <input type="text" id="title_input" />
-                <br />
-                <label>Author</label>
-                <br />
-                <input type="text" id="author_input" />
-                <br />
-                <input type="button"
-                       form="Form_addBook"
-                       id="Add_Book_Button"
-                       value="submit"
-                       onclick="AddBook(document.getElementById('title_input').value, document.getElementById('author_input').value)">
-            </form>
-
+    <h2>My Book Collection</h2>
+    <div class="menu-container">        
+        <div class="menu-item">
+        <h2>Book</h2>
+        <form id="Form_addBook">
+            <div>
+            <label>Title</label>
+            <br>
+            <input type="text" id="title_input"/>
+            </div>
+            <div>
+            <label>Author</label>
+            <br>
+            <input type="text" id="author_input" />
+            </div>
+            <input type="button"
+                   form="Form_addBook"
+                   id="Add_Book_Button"
+                   value="submit"
+                   onclick="AddBook(document.getElementById('title_input').value, document.getElementById('author_input').value)">
+        </form>
         </div>
-
-        <div>
+        <div class="menu-item">
+            <h2>User</h2>
             <button id="newUser" onclick="GetNewAccessKey()">New User</button>
-        </div>  
-
-        <div>
-            <div id="allBooks"></div>
         </div>
-
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
-
-
-
+    <div class="output-container">
+    <h2>Collection</h2>
+    <div id="output-Books"></div>
+    </div>
 </body>
 </html>
