@@ -11,10 +11,6 @@ button, #Add_Book_Button {
 
     button:hover, #Add_Book_Button:hover {
         background-color: #527138;
-        padding: 1px;
-        border: 1px solid #111;
-        border-radius: 4px;
-        color: white;
     }
 
 .flex-container div, form {
