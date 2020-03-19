@@ -111,7 +111,7 @@ function GetNewAccessKey() {
     xhReq.send(null);
     var jsonObject = JSON.parse(xhReq.responseText);
     key = jsonObject.key.toString();
-    if (key == null) {
+    if (key === null) {
         GetNewAccessKey();
     } else {
         UpdateUrl();
