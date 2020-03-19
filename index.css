@@ -31,9 +31,9 @@ button {
 
 .menu-container {
     float: left;
-    margin-left: 1%;
+    margin: 1%;
     overflow: hidden;
-    width: 15%;
+    width: 18%;
 }
 
 .menu-item {
@@ -46,7 +46,7 @@ button {
 }
 
 .menu-item h2 {
-    width: 98%;
+    width: 100%;
     text-align: left;
     border-radius: 0px;
     margin: 0, 0, 0, 0;
@@ -66,17 +66,17 @@ button {
 
 .output-container {
     float: left;
-    margin-left: 1%;
+    margin: 1%;
     overflow: hidden;
-    width: 80%;
+    width: 78%;
 }
 
 .output-container h2{
-    width: 98%;
     text-align: left;
     border-radius: 4px;
     margin: 0;
     margin-bottom: 1%;
+    border-radius: 4px;
 }
 
 .output-item {
