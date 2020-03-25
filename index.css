@@ -5,7 +5,7 @@
 }
 
 h2 {
-    font-size: 3em;
+    font-size: 2em;
     margin: 1%;
     padding: 1%;
     background-color: #527138;
@@ -13,22 +13,13 @@ h2 {
     color: white;
 }
 
-label{
-    font-size: 2em;
+h3 {
+    margin: 1%;
+    padding: 1%;
+    background-color: #527138;
+    border-radius: 4px;
+    color: white;
 }
-
-input {
-    font-size: 2em;
-}
-
-p {
-    font-size: 2em;
-}
-
-button {
-    font-size: 2em;
-}
-
 .menu-container {
     float: left;
     margin: 1%;
@@ -38,8 +29,6 @@ button {
 
 .menu-item {
     overflow: hidden;
-    border-style: solid;
-    border-color: #527138;
     border-radius: 4px;
     margin-bottom: 1%;
     background-color: #527138;
@@ -84,18 +73,25 @@ button {
 
 .output-item {
     overflow: hidden;
-    border-style: solid;
-    border-color: #527138;
+    display: inline-block;
     border-radius: 4px;
     margin-bottom: 1%;
+    margin-right: .5%;
+    margin-left: .5%;
+    width: 19%;
     background-color: #527138;
+
 }
 
-.output-item h2 {
+.output-item h3 {
     width: 98%;
     text-align: left;
     border-radius: 0px;
-    margin: 0;
+
+    /* Protect from long titles breaking vertical size */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .output-item label {
@@ -113,7 +109,12 @@ button {
 .output-item p {
     margin: 0;
     margin-left: 2%;
-    color: white; 
+    color: white;
+
+    /* Protect from long titles breaking vertical size */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 button, #Add_Book_Button {

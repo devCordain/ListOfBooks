@@ -9,7 +9,7 @@ var maxRequests = 10;
 var currentRequests = 0;
 var key = localStorage.getItem('apiAccessKey');
 
-if (key == null) {
+if (key === null) {
     GetNewAccessKey();
 } else {
     UpdateUrl();
@@ -17,7 +17,7 @@ if (key == null) {
 }
 
  function AddBook(title, author) {
-     if (currentBookId == -1) {
+     if (currentBookId === -1) {
          fetch(insertBook + '&title=' + title + '&author=' + author)
              .then((response) => {
                  return response.json();
@@ -69,11 +69,11 @@ function GetBooks() {
             return response.json();
         })
         .then((myJson) => {
-            if (myJson['data'] == undefined && currentRequests <= maxRequests) {
+            if (myJson['data'] === undefined && currentRequests <= maxRequests) {
                 currentRequests++;
                 GetBooks();
             } else {
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="output-item"><h2>${book.title}</h2><label>Author</label><br><p>${book.author}</p><button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}'); document.getElementById('Form_addBook').scrollIntoView();">Update</button></div>` }).join('');
+                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="output-item"><h3>${book.title}</h3><label>Author</label><br><p>${book.author}</p><button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}'); document.getElementById('Form_addBook').scrollIntoView();">Update</button></div>` }).join('');
                 document.querySelector('#output-Books').insertAdjacentHTML('afterbegin', html);
             }
         });
