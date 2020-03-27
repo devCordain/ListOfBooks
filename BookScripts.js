@@ -73,8 +73,14 @@ function GetBooks() {
                 currentRequests++;
                 GetBooks();
             } else {
-                const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="output-item"><h3>${book.title}</h3><label>Author</label><br><p>${book.author}</p><button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}'); document.getElementById('Form_addBook').scrollIntoView();">Update</button></div>` }).join('');
-                document.querySelector('#output-Books').insertAdjacentHTML('afterbegin', html);
+                try {
+                    const html = myJson['data'].map(book => { console.log(typeof book.id.toString()); return `<div class="output-item"><h3>${book.title}</h3><label>Author</label><br><p>${book.author}</p><button onclick="DeleteBook(${book.id}, '${book.title}', '${book.author}' , true)">Delete</button> <button onclick="UpdateBook(${book.id}, '${book.title}', '${book.author}'); document.getElementById('Form_addBook').scrollIntoView();">Update</button></div>` }).join('');
+                    document.querySelector('#output-Books').insertAdjacentHTML('afterbegin', html);
+				}
+                catch(error){
+                    console.log(error);
+                    GetBooks();
+				}
             }
         });
 }
